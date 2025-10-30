@@ -21,7 +21,7 @@ export const charities: Charity[] = [
     status: '進行中',
     raised: 1667,
     supporters: 350,
-    nextDraw: '2024/09/25',
+    nextDraw: '2026/01/25',
     industry: '社會福利',
   },
   {
