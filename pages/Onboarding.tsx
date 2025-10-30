@@ -45,7 +45,7 @@ const Onboarding: React.FC = () => {
     }
     
     localStorage.setItem('userBarcode', barcodeToStore);
-    navigate('/dashboard');
+    navigate('/charities');
   };
 
   return (

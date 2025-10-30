@@ -2,8 +2,7 @@ import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
 
 const navItems = [
-    { to: '/dashboard', icon: 'home', label: '首頁', id: 'home' },
-    { to: '/charities', icon: 'waves', label: '公益池', id: 'pools' },
+    { to: '/charities', icon: 'home', label: '首頁', id: 'pools' },
     { to: '/wallet', icon: 'account_balance_wallet', label: '錢包', id: 'wallet' },
 ];
 
@@ -13,12 +12,10 @@ const BottomNav: React.FC = () => {
     const getIsActive = (id: string) => {
         const { pathname } = location;
         switch (id) {
-            case 'home':
-                return pathname === '/dashboard';
             case 'pools':
-                return pathname === '/charities';
+                return pathname === '/charities' || pathname === '/bind-pool';
             case 'wallet':
-                return pathname.startsWith('/wallet') || pathname.startsWith('/certificate') || pathname.startsWith('/transfer-nft');
+                return pathname.startsWith('/wallet') || pathname.startsWith('/certificate') || pathname.startsWith('/transaction-details') || pathname.startsWith('/winning-result');
             default:
                 return false;
         }

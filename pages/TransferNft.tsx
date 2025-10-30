@@ -15,8 +15,8 @@ const TransferNft: React.FC<TransferNftProps> = ({ nftId, onClose }) => {
     const nft = nfts.find(n => n.id === nftId);
 
     useEffect(() => {
-        // A simple regex for Ethereum address validation
-        setIsAddressValid(/^0x[a-fA-F0-9]{40}$/.test(recipientAddress));
+        // Allow any non-empty address format, per user request.
+        setIsAddressValid(recipientAddress.trim().length > 0);
     }, [recipientAddress]);
 
     const handleTransfer = () => {

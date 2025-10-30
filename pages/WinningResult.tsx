@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 
@@ -17,7 +16,7 @@ const WinningResult: React.FC = () => {
             <div className="flex flex-1 flex-col z-10">
                 {/* Top App Bar with a close button */}
                 <header className="flex items-center p-4 justify-end">
-                    <button onClick={() => navigate('/dashboard')} className="flex size-10 shrink-0 items-center justify-center rounded-full bg-black/5 dark:bg-white/10 text-text-light dark:text-text-dark hover:bg-black/10 dark:hover:bg-white/20 transition-colors">
+                    <button onClick={() => navigate('/wallet')} className="flex size-10 shrink-0 items-center justify-center rounded-full bg-black/5 dark:bg-white/10 text-text-light dark:text-text-dark hover:bg-black/10 dark:hover:bg-white/20 transition-colors">
                         <span className="material-symbols-outlined">close</span>
                     </button>
                 </header>
@@ -54,7 +53,7 @@ const WinningResult: React.FC = () => {
                         <span className="truncate">查看我的憑證</span>
                     </Link>
                     <Link 
-                        to="/dashboard" 
+                        to="/charities" 
                         className="flex min-w-[84px] cursor-pointer items-center justify-center overflow-hidden rounded-full h-14 px-5 bg-transparent text-subtle-light dark:text-subtle-dark text-base font-bold leading-normal tracking-[0.015em] w-full transition-colors hover:bg-black/5 dark:hover:bg-white/10"
                     >
                         <span className="truncate">返回首頁</span>
