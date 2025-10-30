@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { HashRouter, Routes, Route, useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -11,6 +10,7 @@ import Certificate from './pages/Certificate';
 import WinningResult from './pages/WinningResult';
 import TransactionDetails from './pages/TransactionDetails';
 import TransferNft from './pages/TransferNft';
+import Charities from './pages/Charities';
 
 const PageWrapper: React.FC<{ children: React.ReactNode }> = ({ children }) => (
   <motion.div
@@ -30,6 +30,7 @@ const AnimatedRoutes: React.FC = () => {
       <Routes location={location} key={location.pathname}>
         <Route path="/" element={<PageWrapper><Onboarding /></PageWrapper>} />
         <Route path="/dashboard" element={<PageWrapper><Dashboard /></PageWrapper>} />
+        <Route path="/charities" element={<PageWrapper><Charities /></PageWrapper>} />
         <Route path="/bind-pool" element={<PageWrapper><BindPool /></PageWrapper>} />
         <Route path="/wallet" element={<PageWrapper><Wallet /></PageWrapper>} />
         <Route path="/certificate/:nftId" element={<PageWrapper><Certificate /></PageWrapper>} />
