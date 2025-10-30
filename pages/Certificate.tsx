@@ -1,12 +1,14 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import { nfts } from '../lib/nfts';
 import BottomNav from '../components/BottomNav';
+import TransferNft from './TransferNft';
 
 const Certificate: React.FC = () => {
     const navigate = useNavigate();
     const { nftId } = useParams<{ nftId: string }>();
     const nft = nfts.find(n => n.id === nftId);
+    const [isTransferModalOpen, setIsTransferModalOpen] = useState(false);
 
     if (!nft) {
         return (
@@ -63,9 +65,9 @@ const Certificate: React.FC = () => {
                         </div>
                         <div className="flex flex-1 gap-3 w-full flex-col items-stretch py-6">
                             {nft.transferable ? (
-                                <Link to={`/transfer-nft/${nft.id}`} className="flex min-w-[84px] cursor-pointer items-center justify-center overflow-hidden rounded-xl h-12 px-5 bg-primary text-text-light dark:text-black text-base font-bold leading-normal tracking-[0.015em] w-full transition-transform active:scale-95">
+                                <button onClick={() => setIsTransferModalOpen(true)} className="flex min-w-[84px] cursor-pointer items-center justify-center overflow-hidden rounded-xl h-12 px-5 bg-primary text-text-light dark:text-black text-base font-bold leading-normal tracking-[0.015em] w-full transition-transform active:scale-95">
                                     <span className="truncate">轉移此 NFT</span>
-                                </Link>
+                                </button>
                             ) : (
                                 <button
                                     disabled
@@ -83,6 +85,12 @@ const Certificate: React.FC = () => {
                     </div>
                 </main>
             </div>
+             {isTransferModalOpen && (
+                <TransferNft
+                    nftId={nft.id}
+                    onClose={() => setIsTransferModalOpen(false)}
+                />
+            )}
             <BottomNav />
         </div>
     );

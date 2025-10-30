@@ -1,13 +1,13 @@
-
-
-import React from 'react';
+import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { nfts } from '../lib/nfts';
 import BottomNav from '../components/BottomNav';
+import TransferNft from './TransferNft';
 
 const Wallet: React.FC = () => {
     const barcode = localStorage.getItem('userBarcode') || '/ABC123DE';
     const navigate = useNavigate();
+    const [transferringNftId, setTransferringNftId] = useState<string | null>(null);
 
 
     return (
@@ -92,7 +92,7 @@ const Wallet: React.FC = () => {
                                             </div>
                                             <div className="shrink-0 flex flex-col gap-2 items-center">
                                                 <Link to={`/certificate/${nft.id}`} className="text-sm font-medium leading-normal text-text-light dark:text-text-dark bg-gray-200 dark:bg-gray-700 px-3 py-1 rounded-md">查看</Link>
-                                                <Link to={`/transfer-nft/${nft.id}`} className="text-sm font-medium leading-normal text-text-light dark:text-text-dark bg-gray-200 dark:bg-gray-700 px-3 py-1 rounded-md">轉移</Link>
+                                                <button onClick={() => setTransferringNftId(nft.id)} className="text-sm font-medium leading-normal text-text-light dark:text-text-dark bg-gray-200 dark:bg-gray-700 px-3 py-1 rounded-md">轉移</button>
                                             </div>
                                         </div>
                                     </div>
@@ -188,6 +188,12 @@ const Wallet: React.FC = () => {
                     </div>
                 </div>
             </main>
+            {transferringNftId && (
+                <TransferNft
+                    nftId={transferringNftId}
+                    onClose={() => setTransferringNftId(null)}
+                />
+            )}
             <BottomNav />
         </div>
     );

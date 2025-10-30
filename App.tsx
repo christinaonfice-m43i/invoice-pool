@@ -36,7 +36,6 @@ const AnimatedRoutes: React.FC = () => {
         <Route path="/certificate/:nftId" element={<PageWrapper><Certificate /></PageWrapper>} />
         <Route path="/winning-result" element={<PageWrapper><WinningResult /></PageWrapper>} />
         <Route path="/transaction-details" element={<PageWrapper><TransactionDetails /></PageWrapper>} />
-        <Route path="/transfer-nft/:nftId" element={<PageWrapper><TransferNft /></PageWrapper>} />
       </Routes>
     </AnimatePresence>
   );
