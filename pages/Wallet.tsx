@@ -1,16 +1,14 @@
-import React, { useState, useEffect } from 'react';
+
+import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import { nfts } from '../lib/nfts';
+
+// Read barcode from localStorage once when the module is loaded.
+const initialBarcode = localStorage.getItem('userBarcode') || '/ABC123DE';
 
 const Wallet: React.FC = () => {
-    const [barcode, setBarcode] = useState('/ABC123DE'); // Default fallback
+    const [barcode, setBarcode] = useState(initialBarcode);
     const navigate = useNavigate();
-
-    useEffect(() => {
-        const storedBarcode = localStorage.getItem('userBarcode');
-        if (storedBarcode) {
-            setBarcode(storedBarcode);
-        }
-    }, []);
 
 
     return (
@@ -79,43 +77,28 @@ const Wallet: React.FC = () => {
                 <div>
                     <h3 className="text-text-light dark:text-text-dark text-lg font-bold leading-tight tracking-[-0.015em] px-1 pb-2 pt-4">我的公益憑證 🌱</h3>
                     <div className="flex flex-col rounded-xl overflow-hidden shadow-sm">
-                        <div className="bg-component-bg-light dark:bg-component-bg-dark">
-                            <div className="flex gap-4 p-4 justify-between items-center">
-                                <div className="flex items-center gap-4 min-w-0">
-                                    {/* Fix: Removed invalid 'alt' attribute from div element. */}
-                                    <div className="bg-center bg-no-repeat aspect-square bg-cover rounded-lg size-12 shrink-0" style={{ backgroundImage: 'url("https://lh3.googleusercontent.com/aida-public/AB6AXuAdGjuWDV1dl6ZGNHPkXQ45b4aSrxpNcRpuy_eFMWImbNm85HGN-fTIS1-cLVTlRIZVuDKx4n73Qi-eW2gMv011Yu7c-oVmqN6MuH8bYeKxzhx1L_vdOb_KdKg0GGtD5uiiYikwmzVHVSQMmHBJkG3QgWIAARriBQdwroTXlKHCqYZX_Ncy3N0Woszzgq4Hi-cksBToIUK4xpeKafCEhx4HSREXoN8Rabh3PEMWAs2vPSwJoTQ9RzI9-w7ApWR3pbhARYPByW9F3Ebw")' }}></div>
-                                    <div className="flex flex-1 flex-col justify-center gap-0.5 min-w-0">
-                                        <p className="text-text-light dark:text-text-dark text-base font-medium leading-normal truncate">InvoicePool NFT #00452</p>
-                                        <p className="text-subtle-light dark:text-subtle-dark text-sm font-normal leading-normal">動物救援基金會・捐出 50%</p>
-                                        <p className="text-subtle-light dark:text-subtle-dark text-xs font-normal leading-normal">2025 / 11 / 25</p>
-                                        <div className="mt-1 inline-flex items-center rounded-full bg-primary/20 px-2 py-0.5 text-xs font-medium text-green-700 dark:text-primary self-start">已上鏈 ✅</div>
+                        {nfts.map((nft, index) => (
+                            <React.Fragment key={nft.id}>
+                                <div className="bg-component-bg-light dark:bg-component-bg-dark">
+                                    <div className="flex gap-4 p-4 justify-between items-center">
+                                        <div className="flex items-center gap-4 min-w-0">
+                                            <div className="bg-center bg-no-repeat aspect-square bg-cover rounded-lg size-12 shrink-0" style={{ backgroundImage: `url("${nft.image}")` }}></div>
+                                            <div className="flex flex-1 flex-col justify-center gap-0.5 min-w-0">
+                                                <p className="text-text-light dark:text-text-dark text-base font-medium leading-normal truncate">InvoicePool NFT #{nft.id}</p>
+                                                <p className="text-subtle-light dark:text-subtle-dark text-sm font-normal leading-normal">{nft.name}・捐出 {nft.donationRatio}%</p>
+                                                <p className="text-subtle-light dark:text-subtle-dark text-xs font-normal leading-normal">{nft.issueDate.replace(/\//g, ' / ')}</p>
+                                                <div className="mt-1 inline-flex items-center rounded-full bg-primary/20 px-2 py-0.5 text-xs font-medium text-green-700 dark:text-primary self-start">{nft.status}</div>
+                                            </div>
+                                        </div>
+                                        <div className="shrink-0 flex flex-col gap-2 items-center">
+                                            <Link to={`/certificate/${nft.id}`} className="text-sm font-medium leading-normal text-text-light dark:text-text-dark bg-gray-200 dark:bg-gray-700 px-3 py-1 rounded-md">查看</Link>
+                                            <Link to={`/transfer-nft/${nft.id}`} className="text-sm font-medium leading-normal text-text-light dark:text-text-dark bg-gray-200 dark:bg-gray-700 px-3 py-1 rounded-md">轉移</Link>
+                                        </div>
                                     </div>
                                 </div>
-                                <div className="shrink-0 flex flex-col gap-2 items-center">
-                                    <Link to="/certificate" className="text-sm font-medium leading-normal text-text-light dark:text-text-dark bg-gray-200 dark:bg-gray-700 px-3 py-1 rounded-md">查看</Link>
-                                    <Link to="/transfer-nft/00452" className="text-sm font-medium leading-normal text-text-light dark:text-text-dark bg-gray-200 dark:bg-gray-700 px-3 py-1 rounded-md">轉移</Link>
-                                </div>
-                            </div>
-                        </div>
-                        <hr className="border-t border-border-light dark:border-border-dark/50 mx-4" />
-                        <div className="bg-component-bg-light dark:bg-component-bg-dark">
-                            <div className="flex gap-4 p-4 justify-between items-center">
-                                <div className="flex items-center gap-4 min-w-0">
-                                    {/* Fix: Removed invalid 'alt' attribute from div element. */}
-                                    <div className="bg-center bg-no-repeat aspect-square bg-cover rounded-lg size-12 shrink-0" style={{ backgroundImage: 'url("https://lh3.googleusercontent.com/aida-public/AB6AXuCdhOi7XAmhFe8OlqSow9e1twmlxXQcx_e9KyNXRBDdM-oLF_CPs6ZwYcK1O_FbfeRqzjvpFJfj-JTdR6F1IY2s82H-jphPAz_NfAporfVOcB5A1p_hnvGzMmaaFRAzAfX14LE_LgOSe6r3sNRMz6jexL3ubshm_h5hXzsYgeIW7z6bTIu3TkVW6LQA0EvHHjUDS9lUvLK3eZVd3XbU5oWQPwUQwUe0dmrULPzQhQ4LUe6wJNL2iaWwCt76daugLxvgcLE9E5RAl_fX")' }}></div>
-                                    <div className="flex flex-1 flex-col justify-center gap-0.5 min-w-0">
-                                        <p className="text-text-light dark:text-text-dark text-base font-medium leading-normal truncate">InvoicePool NFT #00319</p>
-                                        <p className="text-subtle-light dark:text-subtle-dark text-sm font-normal leading-normal">偏鄉教育基金會・捐出 25%</p>
-                                        <p className="text-subtle-light dark:text-subtle-dark text-xs font-normal leading-normal">2025 / 09 / 25</p>
-                                        <div className="mt-1 inline-flex items-center rounded-full bg-primary/20 px-2 py-0.5 text-xs font-medium text-green-700 dark:text-primary self-start">已上鏈 ✅</div>
-                                    </div>
-                                </div>
-                                <div className="shrink-0 flex flex-col gap-2 items-center">
-                                    <Link to="/certificate" className="text-sm font-medium leading-normal text-text-light dark:text-text-dark bg-gray-200 dark:bg-gray-700 px-3 py-1 rounded-md">查看</Link>
-                                    <Link to="/transfer-nft/00319" className="text-sm font-medium leading-normal text-text-light dark:text-text-dark bg-gray-200 dark:bg-gray-700 px-3 py-1 rounded-md">轉移</Link>
-                                </div>
-                            </div>
-                        </div>
+                                {index < nfts.length - 1 && <hr className="border-t border-border-light dark:border-border-dark/50 mx-4" />}
+                            </React.Fragment>
+                        ))}
                     </div>
                     <div className="mt-4">
                         <h4 className="text-text-light dark:text-text-dark text-base font-bold leading-tight px-1 pb-2">未生成NFT的發票</h4>

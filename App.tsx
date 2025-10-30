@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { HashRouter, Routes, Route, useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -31,7 +32,7 @@ const AnimatedRoutes: React.FC = () => {
         <Route path="/dashboard" element={<PageWrapper><Dashboard /></PageWrapper>} />
         <Route path="/bind-pool" element={<PageWrapper><BindPool /></PageWrapper>} />
         <Route path="/wallet" element={<PageWrapper><Wallet /></PageWrapper>} />
-        <Route path="/certificate" element={<PageWrapper><Certificate /></PageWrapper>} />
+        <Route path="/certificate/:nftId" element={<PageWrapper><Certificate /></PageWrapper>} />
         <Route path="/winning-result" element={<PageWrapper><WinningResult /></PageWrapper>} />
         <Route path="/transaction-details" element={<PageWrapper><TransactionDetails /></PageWrapper>} />
         <Route path="/transfer-nft/:nftId" element={<PageWrapper><TransferNft /></PageWrapper>} />

@@ -1,11 +1,15 @@
+
 import React, { useState } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
+import { nfts } from '../lib/nfts';
 
 const TransferNft: React.FC = () => {
     const navigate = useNavigate();
     const { nftId } = useParams<{ nftId: string }>();
     const [recipientAddress, setRecipientAddress] = useState('');
     const [showSuccessModal, setShowSuccessModal] = useState(false);
+    
+    const nft = nfts.find(n => n.id === nftId);
 
     const isAddressValid = recipientAddress.startsWith('0x') && recipientAddress.length > 10;
 
@@ -18,6 +22,18 @@ const TransferNft: React.FC = () => {
         setShowSuccessModal(false);
         navigate('/wallet');
     };
+
+    if (!nft) {
+        return (
+            <div className="flex flex-col items-center justify-center min-h-screen text-text-light dark:text-text-dark">
+                <h2 className="text-2xl font-bold mb-4">找不到憑證</h2>
+                <p className="text-subtle-light dark:text-subtle-dark mb-6">您要轉移的公益憑證不存在。</p>
+                <Link to="/wallet" className="flex min-w-[84px] cursor-pointer items-center justify-center overflow-hidden rounded-xl h-12 px-5 bg-primary text-text-light dark:text-black text-base font-bold leading-normal tracking-[0.015em] w-48 transition-transform active:scale-95">
+                    返回錢包
+                </Link>
+            </div>
+        );
+    }
 
     return (
         <div className="relative flex min-h-screen w-full flex-col">
@@ -40,10 +56,10 @@ const TransferNft: React.FC = () => {
                     <div className="bg-component-bg-light dark:bg-component-bg-dark rounded-xl p-4 shadow-sm">
                         <p className="text-subtle-light dark:text-subtle-dark text-sm mb-2">您正在轉移的憑證</p>
                         <div className="flex items-center gap-4">
-                            <div className="bg-center bg-no-repeat aspect-square bg-cover rounded-lg size-12 shrink-0" style={{ backgroundImage: 'url("https://lh3.googleusercontent.com/aida-public/AB6AXuAdGjuWDV1dl6ZGNHPkXQ45b4aSrxpNcRpuy_eFMWImbNm85HGN-fTIS1-cLVTlRIZVuDKx4n73Qi-eW2gMv011Yu7c-oVmqN6MuH8bYeKxzhx1L_vdOb_KdKg0GGtD5uiiYikwmzVHVSQMmHBJkG3QgWIAARriBQdwroTXlKHCqYZX_Ncy3N0Woszzgq4Hi-cksBToIUK4xpeKafCEhx4HSREXoN8Rabh3PEMWAs2vPSwJoTQ9RzI9-w7ApWR3pbhARYPByW9F3Ebw")' }}></div>
+                            <div className="bg-center bg-no-repeat aspect-square bg-cover rounded-lg size-12 shrink-0" style={{ backgroundImage: `url("${nft.image}")` }}></div>
                             <div className="flex flex-1 flex-col justify-center min-w-0">
-                                <p className="text-text-light dark:text-text-dark text-base font-medium leading-normal truncate">InvoicePool NFT #{nftId}</p>
-                                <p className="text-subtle-light dark:text-subtle-dark text-sm font-normal leading-normal">已上鏈 ✅</p>
+                                <p className="text-text-light dark:text-text-dark text-base font-medium leading-normal truncate">InvoicePool NFT #{nft.id}</p>
+                                <p className="text-subtle-light dark:text-subtle-dark text-sm font-normal leading-normal">{nft.status}</p>
                             </div>
                         </div>
                     </div>
