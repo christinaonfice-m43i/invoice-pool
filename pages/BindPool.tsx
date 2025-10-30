@@ -1,19 +1,37 @@
-
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams, Link } from 'react-router-dom';
+import { charities } from '../lib/charities';
 
 const BindPool: React.FC = () => {
     const navigate = useNavigate();
+    const { charityId } = useParams<{ charityId: string }>();
+    const charity = charities.find(c => c.id === charityId);
+    
     const [donationRatio, setDonationRatio] = useState<'50' | '100'>('100');
     const [showSuccessModal, setShowSuccessModal] = useState(false);
 
     const handleConfirmBinding = () => {
+        if (charityId) {
+            localStorage.setItem('boundCharityId', charityId);
+        }
         setShowSuccessModal(true);
     };
 
     const handleViewWallet = () => {
         navigate('/wallet');
     };
+
+    if (!charity) {
+        return (
+            <div className="flex flex-col items-center justify-center min-h-screen p-4 text-center">
+                <h2 className="text-2xl font-bold mb-4 text-text-light dark:text-text-dark">找不到公益池</h2>
+                <p className="text-subtle-light dark:text-subtle-dark mb-6">您要找的公益池不存在。</p>
+                <Link to="/charities" className="flex min-w-[84px] cursor-pointer items-center justify-center overflow-hidden rounded-xl h-12 px-5 bg-primary text-text-light dark:text-black text-base font-bold leading-normal tracking-[0.015em] w-48 transition-transform active:scale-95">
+                    返回首頁
+                </Link>
+            </div>
+        );
+    }
 
     return (
         <div className="relative flex min-h-screen w-full flex-col">
@@ -35,15 +53,15 @@ const BindPool: React.FC = () => {
                     <div className="flex flex-col items-stretch justify-start rounded-xl @xl:flex-row @xl:items-start shadow-[0_4px_12px_rgba(0,0,0,0.05)] bg-component-bg-light dark:bg-component-bg-dark/50 dark:border dark:border-border-dark">
                         <div
                             className="w-full bg-center bg-no-repeat aspect-[2/1] @xl:aspect-square @xl:w-40 bg-cover rounded-t-xl @xl:rounded-l-xl @xl:rounded-r-none"
-                            style={{ backgroundImage: 'url("https://lh3.googleusercontent.com/aida-public/AB6AXuARihyA10MEVr00uvBuM1QkMUBfNuo7MCOgpoaaxjfto6FG7N645sdLLocA_WfyEtf6Yrh45eTy-VqonmMETuV485PSzzXjqpBxjgF3aNpWIuc6FT8NTbJtK94xgp8VA9fBB2X-7yJyVW1sy0pjiyHAUu99M4SKtqleycdit-KhdH3tgTs0iFe_31eEZ04ShwuWr4Y9vrICQTAJGQls0HKm18_HEGRALnjSModYMT5XAJX2JbodVFcwb7z-g4AE4ZNxO3OpN_J_G1FC")' }}
+                            style={{ backgroundImage: `url("${charity.image}")` }}
                         ></div>
                         <div className="flex w-full min-w-72 grow flex-col items-stretch justify-center gap-2 p-4">
                             <div className="flex items-center gap-2">
-                                <p className="text-text-light dark:text-text-dark text-lg font-bold leading-tight tracking-[-0.015em]">罕見疾病基金會</p>
+                                <p className="text-text-light dark:text-text-dark text-lg font-bold leading-tight tracking-[-0.015em]">{charity.name}</p>
                                 <span className="material-symbols-outlined text-primary text-base material-symbols-filled">verified</span>
                             </div>
-                            <p className="text-subtle-light dark:text-subtle-dark text-sm font-normal leading-normal">Taiwan Foundation for Rare Disorders</p>
-                            <p className="text-text-light dark:text-text-dark/80 text-base font-normal leading-normal mt-1">愛心碼:999</p>
+                            <p className="text-subtle-light dark:text-subtle-dark text-sm font-normal leading-normal">{charity.englishName}</p>
+                            <p className="text-text-light dark:text-text-dark/80 text-base font-normal leading-normal mt-1">愛心碼:{charity.loveCode}</p>
                         </div>
                     </div>
                 </div>
@@ -109,7 +127,7 @@ const BindPool: React.FC = () => {
                         <div className="flex w-full px-2 py-2 justify-center">
                             <button 
                                 onClick={handleViewWallet}
-                                className="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-12 px-5 flex-1 bg-primary text-text-light text-base font-bold leading-normal tracking-[0.015em] shadow-[0_4px_14px_0_rgba(38,169,92,0.25)]"
+                                className="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-12 px-5 flex-1 bg-primary text-text-light dark:text-black text-base font-bold leading-normal tracking-[0.015em] shadow-[0_4px_14px_0_rgba(38,169,92,0.25)]"
                             >
                                 <span className="truncate">檢視我的錢包</span>
                             </button>

@@ -12,10 +12,10 @@ import TransactionDetails from './pages/TransactionDetails';
 
 const PageWrapper: React.FC<{ children: React.ReactNode }> = ({ children }) => (
   <motion.div
-    initial={{ opacity: 0 }}
-    animate={{ opacity: 1 }}
-    exit={{ opacity: 0 }}
-    transition={{ duration: 0.5 }}
+    initial={{ opacity: 0, y: 20 }}
+    animate={{ opacity: 1, y: 0 }}
+    exit={{ opacity: 0, y: -20 }}
+    transition={{ duration: 0.3 }}
   >
     {children}
   </motion.div>
@@ -28,7 +28,7 @@ const AnimatedRoutes: React.FC = () => {
       <Routes location={location} key={location.pathname}>
         <Route path="/" element={<PageWrapper><Onboarding /></PageWrapper>} />
         <Route path="/charities" element={<PageWrapper><Charities /></PageWrapper>} />
-        <Route path="/bind-pool" element={<PageWrapper><BindPool /></PageWrapper>} />
+        <Route path="/bind-pool/:charityId" element={<PageWrapper><BindPool /></PageWrapper>} />
         <Route path="/wallet" element={<PageWrapper><Wallet /></PageWrapper>} />
         <Route path="/certificate/:nftId" element={<PageWrapper><Certificate /></PageWrapper>} />
         <Route path="/winning-result" element={<PageWrapper><WinningResult /></PageWrapper>} />

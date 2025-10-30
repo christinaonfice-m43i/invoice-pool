@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { nfts } from '../lib/nfts';
+import { charities } from '../lib/charities';
 import BottomNav from '../components/BottomNav';
 import TransferNft from './TransferNft';
 
@@ -8,6 +9,11 @@ const Wallet: React.FC = () => {
     const barcode = localStorage.getItem('userBarcode') || '/ABC123DE';
     const navigate = useNavigate();
     const [transferringNftId, setTransferringNftId] = useState<string | null>(null);
+
+    const boundCharityId = localStorage.getItem('boundCharityId');
+    // Default to the 'stray-animal' charity if none is set
+    const defaultCharity = charities.find(c => c.id === 'stray-animal') || charities[0];
+    const boundCharity = charities.find(c => c.id === boundCharityId) || defaultCharity;
 
 
     return (
@@ -49,15 +55,14 @@ const Wallet: React.FC = () => {
                         </div>
                         <div className="flex flex-col gap-1 mt-3">
                             <p className="text-subtle-light dark:text-subtle-dark text-sm font-normal leading-normal">由 imToken 安全託管</p>
-                            <a className="text-primary text-sm font-medium leading-normal underline" href="#">在區塊鏈瀏覽器查看</a>
                         </div>
                     </div>
                     <div className="flex flex-col items-stretch justify-start rounded-xl bg-component-bg-light dark:bg-component-bg-dark p-4 shadow-sm">
                         <p className="text-subtle-light dark:text-subtle-dark text-sm font-normal leading-normal">目前綁定的公益池</p>
                         <div className="mt-2 flex items-center justify-between">
                             <div className="flex items-center gap-3">
-                                <img className="h-10 w-10 rounded-full object-cover" alt="Animal Rescue Foundation Logo" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDr4WBFBKdB_vxXLRu_TGvYv5FT4uF8zZ3X6GHisTA29f3sWAV8kHD9kSBwqwAxD5kNaqVW4tdmx_PkohZXmONdYk6KFlau2m0hdZ2gQmkc3DG4IPKj8lflPpQN6PkslazNFA7kbJmcPoUCbnQelkTOn4Ye0S_hBi7wF07ep95VNK4utizj-kniy-lOtlMrYy7jCKkY7YRcb0ky8R_CiuDuUyWen-__ljcvMAdWRG7Wk_U9MWjP04X9r_SJdFRJf2P4NlXpDQHHCM8J" />
-                                <p className="text-text-light dark:text-text-dark text-base font-semibold leading-tight">動物救援基金會</p>
+                                <img className="h-10 w-10 rounded-full object-cover" alt={`${boundCharity.name} Logo`} src={boundCharity.image} />
+                                <p className="text-text-light dark:text-text-dark text-base font-semibold leading-tight">{boundCharity.name}</p>
                             </div>
                             <div className="inline-flex items-center rounded-full bg-primary/20 px-3 py-1 text-sm font-medium text-green-700 dark:text-primary">生效中</div>
                         </div>
