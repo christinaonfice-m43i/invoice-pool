@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 
@@ -29,7 +30,6 @@ const WinningResult: React.FC = () => {
 
                         <div className="my-6">
                             <p className="text-5xl font-bold leading-tight tracking-tighter text-transparent bg-clip-text bg-gradient-to-br from-amber-400 to-amber-600">20.000 USDT</p>
-                            <p className="text-subtle-light dark:text-subtle-dark text-base font-normal leading-normal mt-1">約 NT$ 600,000</p>
                         </div>
                         
                         <div className="flex flex-col items-center gap-3 rounded-xl bg-white/50 dark:bg-black/20 backdrop-blur-sm border border-black/5 dark:border-white/10 p-4">

@@ -1,3 +1,5 @@
+
+
 import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { nfts } from '../lib/nfts';
@@ -66,7 +68,7 @@ const Wallet: React.FC = () => {
                     <div className="flex flex-col items-stretch justify-start rounded-xl bg-component-bg-light dark:bg-component-bg-dark p-4 shadow-sm">
                         <div className="flex w-full grow flex-col items-stretch justify-center gap-1">
                             <p className="text-subtle-light dark:text-subtle-dark text-sm font-normal leading-normal">目前餘額</p>
-                            <p className="text-text-light dark:text-text-dark text-2xl font-bold leading-tight tracking-[-0.015em]">30.000 USDT ≈ NT$ 960,000</p>
+                            <p className="text-text-light dark:text-text-dark text-2xl font-bold leading-tight tracking-[-0.015em]">30.000 USDT</p>
                             <div className="flex items-end gap-3 justify-between mt-2">
                                 <p className="text-subtle-light dark:text-subtle-dark text-sm font-normal leading-normal">此金額將於開獎後自動入帳.</p>
                             </div>
@@ -105,7 +107,7 @@ const Wallet: React.FC = () => {
                                     <div className="flex justify-between items-center">
                                         <div className="flex flex-col">
                                             <p className="text-text-light dark:text-text-dark font-medium">發票號碼 AB-12345678</p>
-                                            <p className="text-subtle-light dark:text-subtle-dark text-sm mt-0.5">2025 / 12 / 10</p>
+                                            <p className="text-subtle-light dark:text-subtle-dark text-sm mt-0.5">2025 / 09 / 10</p>
                                         </div>
                                         <div className="inline-flex items-center rounded-full bg-gray-200 dark:bg-gray-600 px-3 py-1 text-sm font-medium text-gray-700 dark:text-gray-200">待生成</div>
                                     </div>
@@ -114,7 +116,7 @@ const Wallet: React.FC = () => {
                                     <div className="flex justify-between items-center">
                                         <div className="flex flex-col">
                                             <p className="text-text-light dark:text-text-dark font-medium">發票號碼 CD-87654321</p>
-                                            <p className="text-subtle-light dark:text-subtle-dark text-sm mt-0.5">2025 / 12 / 08</p>
+                                            <p className="text-subtle-light dark:text-subtle-dark text-sm mt-0.5">2025 / 09 / 08</p>
                                         </div>
                                         <div className="inline-flex items-center rounded-full bg-gray-200 dark:bg-gray-600 px-3 py-1 text-sm font-medium text-gray-700 dark:text-gray-200">待生成</div>
                                     </div>

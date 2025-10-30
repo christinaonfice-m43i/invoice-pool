@@ -1,3 +1,4 @@
+
 import React from 'react';
 import BottomNav from '../components/BottomNav';
 import { Link } from 'react-router-dom';
@@ -26,7 +27,7 @@ const Charities: React.FC = () => {
               <div className="flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between pt-2">
                 <div className="flex flex-col gap-1">
                   <p className="text-subtle-light dark:text-subtle-dark text-base font-normal leading-normal">
-                    已募集 TWD 50,000 • 350 位支持者
+                    已募集 USDT 1,667 • 350 位支持者
                   </p>
                   <p className="text-subtle-light dark:text-subtle-dark text-sm font-normal leading-normal">
                     下次開獎: 2024/09/25
@@ -62,7 +63,7 @@ const Charities: React.FC = () => {
               <div className="flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between pt-2">
                 <div className="flex flex-col gap-1">
                   <p className="text-subtle-light dark:text-subtle-dark text-base font-normal leading-normal">
-                    已募集 TWD 120,300 • 890 位支持者
+                    已募集 USDT 4,010 • 890 位支持者
                   </p>
                   <p className="text-subtle-light dark:text-subtle-dark text-sm font-normal leading-normal">
                     下次開獎: 2024/09/25
@@ -93,7 +94,7 @@ const Charities: React.FC = () => {
               <div className="flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between pt-2">
                 <div className="flex flex-col gap-1">
                   <p className="text-subtle-light dark:text-subtle-dark text-base font-normal leading-normal">
-                    已募集 TWD 80,000 • 620 位支持者
+                    已募集 USDT 2,667 • 620 位支持者
                   </p>
                   <p className="text-subtle-light dark:text-subtle-dark text-sm font-normal leading-normal">
                     下次開獎: 2024/11/25
@@ -124,7 +125,7 @@ const Charities: React.FC = () => {
               <div className="flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between pt-2">
                 <div className="flex flex-col gap-1">
                   <p className="text-subtle-light dark:text-subtle-dark text-base font-normal leading-normal">
-                    已募集 TWD 250,000 • 1,500 位支持者
+                    已募集 USDT 8,333 • 1,500 位支持者
                   </p>
                   <p className="text-subtle-light dark:text-subtle-dark text-sm font-normal leading-normal">
                     已於 2024/07/25 截止

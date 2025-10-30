@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import BottomNav from '../components/BottomNav';
@@ -22,7 +23,6 @@ const TransactionDetails: React.FC = () => {
                     <h2 className="text-text-light dark:text-text-dark tracking-tight text-[24px] font-bold leading-tight text-center">交易已上鏈 ✅</h2>
                     <p className="text-subtle-light dark:text-subtle-dark text-sm font-normal leading-normal text-center mt-1">您的中獎金額已成功捐贈至 兒童教育基金會</p>
                     <h3 className="text-yellow-500 tracking-tight text-[32px] font-bold leading-tight text-center mt-4">20.000 USDT</h3>
-                    <p className="text-subtle-light dark:text-subtle-dark text-sm font-normal leading-normal text-center">約 NT$ 600,000</p>
                     <hr className="w-full border-t border-border-light dark:border-border-dark my-6" />
                     <div className="w-full space-y-4 text-sm">
                         <div className="flex justify-between items-start">
