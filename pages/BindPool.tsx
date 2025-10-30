@@ -7,7 +7,7 @@ const BindPool: React.FC = () => {
     const { charityId } = useParams<{ charityId: string }>();
     const charity = charities.find(c => c.id === charityId);
     
-    const [donationRatio, setDonationRatio] = useState<'50' | '100'>('100');
+    const [donationRatio, setDonationRatio] = useState<number>(100);
     const [showSuccessModal, setShowSuccessModal] = useState(false);
 
     const handleConfirmBinding = () => {
@@ -65,16 +65,22 @@ const BindPool: React.FC = () => {
                         </div>
                     </div>
                 </div>
-                <div className="flex px-4 py-3">
-                    <div className="flex h-12 flex-1 items-center justify-center rounded-xl bg-gray-200/50 dark:bg-slate-800 p-1">
-                        <label className="flex cursor-pointer h-full grow items-center justify-center overflow-hidden rounded-lg px-2 has-[:checked]:bg-white dark:has-[:checked]:bg-slate-700 has-[:checked]:shadow-[0_2px_8px_rgba(0,0,0,0.1)] has-[:checked]:text-text-light dark:has-[:checked]:text-text-dark text-subtle-light dark:text-subtle-dark text-sm font-medium leading-normal transition-all duration-200 ease-in-out">
-                            <span className="truncate">捐出50%</span>
-                            <input className="invisible w-0" name="donation-ratio" type="radio" value="50" checked={donationRatio === '50'} onChange={(e) => setDonationRatio(e.target.value as '50' | '100')} />
-                        </label>
-                        <label className="flex cursor-pointer h-full grow items-center justify-center overflow-hidden rounded-lg px-2 has-[:checked]:bg-white dark:has-[:checked]:bg-slate-700 has-[:checked]:shadow-[0_2px_8px_rgba(0,0,0,0.1)] has-[:checked]:text-text-light dark:has-[:checked]:text-text-dark text-subtle-light dark:text-subtle-dark text-sm font-medium leading-normal transition-all duration-200 ease-in-out">
-                            <span className="truncate">全額捐出(100%)</span>
-                            <input className="invisible w-0" name="donation-ratio" type="radio" value="100" checked={donationRatio === '100'} onChange={(e) => setDonationRatio(e.target.value as '50' | '100')} />
-                        </label>
+                <div className="flex flex-col px-4 py-3">
+                    <div className="flex justify-between items-center mb-2">
+                        <span className="text-subtle-light dark:text-subtle-dark text-sm font-medium">捐贈比例</span>
+                        <span className="text-text-light dark:text-text-dark text-lg font-bold">{donationRatio}%</span>
+                    </div>
+                    <input
+                        type="range"
+                        min="25"
+                        max="100"
+                        value={donationRatio}
+                        onChange={(e) => setDonationRatio(Number(e.target.value))}
+                        className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer dark:bg-gray-700 accent-primary"
+                    />
+                     <div className="flex justify-between text-xs text-subtle-light dark:text-subtle-dark mt-1">
+                        <span>25%</span>
+                        <span>100%</span>
                     </div>
                 </div>
                 <p className="text-text-light dark:text-text-dark text-base font-medium leading-normal pb-3 pt-1 px-4">💚 謝謝你的公益捐贈</p>
