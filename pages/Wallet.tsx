@@ -1,20 +1,30 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { nfts } from '../lib/nfts';
 import { charities } from '../lib/charities';
 import BottomNav from '../components/BottomNav';
 import TransferNft from './TransferNft';
+import { AnimatePresence } from 'framer-motion';
 
 const Wallet: React.FC = () => {
     const barcode = localStorage.getItem('userBarcode') || '/ABC123DE';
     const navigate = useNavigate();
     const [transferringNftId, setTransferringNftId] = useState<string | null>(null);
+    const [transferredIds, setTransferredIds] = useState<Set<string>>(
+        () => new Set(JSON.parse(localStorage.getItem('transferredNfts') || '[]'))
+    );
 
     const boundCharityId = localStorage.getItem('boundCharityId');
-    // Default to the 'stray-animal' charity if none is set
     const defaultCharity = charities.find(c => c.id === 'stray-animal') || charities[0];
     const boundCharity = charities.find(c => c.id === boundCharityId) || defaultCharity;
 
+    const handleTransferSuccess = (id: string) => {
+        const newTransferredIds = new Set(transferredIds);
+        newTransferredIds.add(id);
+        setTransferredIds(newTransferredIds);
+        localStorage.setItem('transferredNfts', JSON.stringify(Array.from(newTransferredIds)));
+        setTransferringNftId(null);
+    };
 
     return (
         <div className="relative flex min-h-screen w-full flex-col group/design-root overflow-x-hidden pb-24">
@@ -97,7 +107,13 @@ const Wallet: React.FC = () => {
                                             </div>
                                             <div className="shrink-0 flex flex-col gap-2 items-center">
                                                 <Link to={`/certificate/${nft.id}`} className="text-sm font-medium leading-normal text-text-light dark:text-text-dark bg-gray-200 dark:bg-gray-700 px-3 py-1 rounded-md">查看</Link>
-                                                <button onClick={() => setTransferringNftId(nft.id)} className="text-sm font-medium leading-normal text-text-light dark:text-text-dark bg-gray-200 dark:bg-gray-700 px-3 py-1 rounded-md">轉移</button>
+                                                <button 
+                                                    onClick={() => setTransferringNftId(nft.id)} 
+                                                    disabled={!nft.transferable || transferredIds.has(nft.id)}
+                                                    className="text-sm font-medium leading-normal text-text-light dark:text-text-dark bg-gray-200 dark:bg-gray-700 px-3 py-1 rounded-md disabled:opacity-50 disabled:cursor-not-allowed"
+                                                >
+                                                    轉移
+                                                </button>
                                             </div>
                                         </div>
                                     </div>
@@ -193,13 +209,15 @@ const Wallet: React.FC = () => {
                     </div>
                 </div>
             </main>
-            {transferringNftId && (
-                <TransferNft
-                    nftId={transferringNftId}
-                    onClose={() => setTransferringNftId(null)}
-                    onTransferSuccess={() => setTransferringNftId(null)}
-                />
-            )}
+            <AnimatePresence>
+                {transferringNftId && (
+                    <TransferNft
+                        nftId={transferringNftId}
+                        onClose={() => setTransferringNftId(null)}
+                        onTransferSuccess={() => handleTransferSuccess(transferringNftId)}
+                    />
+                )}
+            </AnimatePresence>
             <BottomNav />
         </div>
     );

@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate, useParams, Link } from 'react-router-dom';
+import { motion, AnimatePresence } from 'framer-motion';
 import { charities } from '../lib/charities';
 
 const BindPool: React.FC = () => {
@@ -122,25 +123,33 @@ const BindPool: React.FC = () => {
                 </button>
             </footer>
 
-            {showSuccessModal && (
-                <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm">
-                    <div className="relative mx-auto flex w-[90%] max-w-sm flex-col items-center rounded-xl bg-component-bg-light dark:bg-component-bg-dark p-6 text-center shadow-2xl">
-                        <div className="mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-primary">
-                            <span className="material-symbols-outlined text-4xl text-white">volunteer_activism</span>
+            <AnimatePresence>
+                {showSuccessModal && (
+                    <motion.div 
+                        className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm"
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
+                        transition={{ duration: 0.5 }}
+                    >
+                        <div className="relative mx-auto flex w-[90%] max-w-sm flex-col items-center rounded-xl bg-component-bg-light dark:bg-component-bg-dark p-6 text-center shadow-2xl">
+                            <div className="mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-primary">
+                                <span className="material-symbols-outlined text-4xl text-white">volunteer_activism</span>
+                            </div>
+                            <h3 className="text-text-light dark:text-text-dark tracking-tight text-xl font-bold leading-tight px-4 text-center pb-2 pt-2">謝謝您的愛心 💚</h3>
+                            <p className="text-subtle-light dark:text-subtle-dark text-sm font-normal leading-normal pb-6 pt-1 px-4 text-center">您的發票已成功綁定此公益池，將於七天內自動上鏈。</p>
+                            <div className="flex w-full px-2 py-2 justify-center">
+                                <button 
+                                    onClick={handleViewWallet}
+                                    className="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-12 px-5 flex-1 bg-primary text-text-light dark:text-black text-base font-bold leading-normal tracking-[0.015em] shadow-[0_4px_14px_0_rgba(38,169,92,0.25)]"
+                                >
+                                    <span className="truncate">檢視我的錢包</span>
+                                </button>
+                            </div>
                         </div>
-                        <h3 className="text-text-light dark:text-text-dark tracking-tight text-xl font-bold leading-tight px-4 text-center pb-2 pt-2">謝謝您的愛心 💚</h3>
-                        <p className="text-subtle-light dark:text-subtle-dark text-sm font-normal leading-normal pb-6 pt-1 px-4 text-center">您的發票已成功綁定此公益池，將於七天內自動上鏈。</p>
-                        <div className="flex w-full px-2 py-2 justify-center">
-                            <button 
-                                onClick={handleViewWallet}
-                                className="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-12 px-5 flex-1 bg-primary text-text-light dark:text-black text-base font-bold leading-normal tracking-[0.015em] shadow-[0_4px_14px_0_rgba(38,169,92,0.25)]"
-                            >
-                                <span className="truncate">檢視我的錢包</span>
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            )}
+                    </motion.div>
+                )}
+            </AnimatePresence>
         </div>
     );
 };

@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { motion } from 'framer-motion';
 import { nfts } from '../lib/nfts';
 
 interface TransferNftProps {
@@ -134,16 +135,19 @@ const TransferNft: React.FC<TransferNftProps> = ({ nftId, onClose, onTransferSuc
         }
     };
 
-    // The outer div is the backdrop, clicking it closes the modal only during the 'input' state.
     return (
-        <div className="fixed inset-0 z-50 flex h-full w-full flex-col items-center justify-center bg-black/60 backdrop-blur-sm p-4"
-             onClick={status === 'input' ? onClose : undefined}
+        <motion.div 
+            className="fixed inset-0 z-50 flex h-full w-full flex-col items-center justify-center bg-black/60 backdrop-blur-sm p-4"
+            onClick={status === 'input' ? onClose : undefined}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.5 }}
         >
-            {/* This inner div stops click propagation so clicking the modal content doesn't close it */}
             <div onClick={(e) => e.stopPropagation()}>
                 {renderContent()}
             </div>
-        </div>
+        </motion.div>
     );
 };
 
