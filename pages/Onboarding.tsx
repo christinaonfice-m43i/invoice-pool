@@ -7,6 +7,7 @@ const Onboarding: React.FC = () => {
   const [manualBarcode, setManualBarcode] = useState('');
   const fileInputRef = useRef<HTMLInputElement>(null);
   const navigate = useNavigate();
+  const simulatedBarcode = '/DMSL94Z';
 
   const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
@@ -15,6 +16,9 @@ const Onboarding: React.FC = () => {
   };
 
   const triggerFileUpload = () => {
+    if (fileInputRef.current) {
+      fileInputRef.current.value = '';
+    }
     fileInputRef.current?.click();
   };
   
@@ -35,8 +39,7 @@ const Onboarding: React.FC = () => {
 
     let barcodeToStore = '';
     if (activeTab === 'upload') {
-        // Simulate extracting barcode from image
-        barcodeToStore = '/6A2B8C1D';
+        barcodeToStore = simulatedBarcode;
     } else { // activeTab === 'manual'
         barcodeToStore = `/${manualBarcode.trim()}`;
     }
@@ -88,35 +91,61 @@ const Onboarding: React.FC = () => {
 
           {activeTab === 'upload' && (
             <div className="flex flex-col py-4">
-              <div
-                className="flex flex-col items-center gap-4 rounded-xl border-2 border-dashed border-border-light dark:border-border-dark px-6 py-10 bg-component-bg-light dark:bg-component-bg-dark cursor-pointer"
-                onClick={triggerFileUpload}
-              >
-                <input
+              <input
                   type="file"
                   ref={fileInputRef}
                   onChange={handleImageUpload}
                   className="hidden"
                   accept="image/*"
                 />
-                <span className="material-symbols-outlined text-4xl text-subtle-light dark:text-subtle-dark">
-                  {image ? 'check_circle' : 'photo_camera'}
-                </span>
-                <div className="flex max-w-[480px] flex-col items-center gap-1">
-                  <p className="text-text-light dark:text-text-dark text-lg font-bold leading-tight tracking-[-0.015em] text-center">
-                    {image ? image.name : '點擊此處上傳'}
-                  </p>
-                  <p className="text-subtle-light dark:text-subtle-dark text-sm font-normal leading-normal text-center">
-                    {image ? '圖片已選取' : '請上傳您的載具條碼截圖'}
-                  </p>
+              {image ? (
+                <div className="flex flex-col items-center gap-4 rounded-xl border-2 border-border-light dark:border-border-dark p-6 bg-component-bg-light dark:bg-component-bg-dark">
+                  <p className="text-subtle-light dark:text-subtle-dark text-sm font-normal leading-normal self-start">您上傳的圖片</p>
+                  <img
+                    src={URL.createObjectURL(image)}
+                    alt="Uploaded screenshot"
+                    className="w-full max-w-xs rounded-lg object-contain border border-border-light dark:border-border-dark"
+                  />
+                  <hr className="w-full border-t border-border-light dark:border-border-dark my-2" />
+                  <p className="text-subtle-light dark:text-subtle-dark text-sm font-normal leading-normal self-start">掃描到的手機載具</p>
+                  <img 
+                      className="w-full max-w-xs" 
+                      alt="Carrier Barcode" 
+                      src={`https://barcode.tec-it.com/barcode.ashx?data=${simulatedBarcode}&code=Code128&translate-esc=on`}
+                  />
+                  <p className="text-text-light dark:text-text-dark text-xl font-mono font-medium leading-tight mt-2 tracking-widest">{simulatedBarcode}</p>
+                  <button
+                      type="button"
+                      onClick={triggerFileUpload}
+                      className="mt-2 flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-xl h-10 px-4 bg-primary/20 dark:bg-primary/30 text-primary text-sm font-bold leading-normal tracking-[0.015em]"
+                  >
+                      <span className="truncate">重新上傳</span>
+                  </button>
                 </div>
-                <button
-                  type="button"
-                  className="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-xl h-10 px-4 bg-primary/20 dark:bg-primary/30 text-primary text-sm font-bold leading-normal tracking-[0.015em]"
+              ) : (
+                <div
+                  className="flex flex-col items-center gap-4 rounded-xl border-2 border-dashed border-border-light dark:border-border-dark px-6 py-10 bg-component-bg-light dark:bg-component-bg-dark cursor-pointer"
+                  onClick={triggerFileUpload}
                 >
-                  <span className="truncate">選擇圖片</span>
-                </button>
-              </div>
+                  <span className="material-symbols-outlined text-4xl text-subtle-light dark:text-subtle-dark">
+                    photo_camera
+                  </span>
+                  <div className="flex max-w-[480px] flex-col items-center gap-1">
+                    <p className="text-text-light dark:text-text-dark text-lg font-bold leading-tight tracking-[-0.015em] text-center">
+                      點擊此處上傳
+                    </p>
+                    <p className="text-subtle-light dark:text-subtle-dark text-sm font-normal leading-normal text-center">
+                      請上傳您的載具條碼截圖
+                    </p>
+                  </div>
+                  <button
+                    type="button"
+                    className="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-xl h-10 px-4 bg-primary/20 dark:bg-primary/30 text-primary text-sm font-bold leading-normal tracking-[0.015em]"
+                  >
+                    <span className="truncate">選擇圖片</span>
+                  </button>
+                </div>
+              )}
             </div>
           )}
           

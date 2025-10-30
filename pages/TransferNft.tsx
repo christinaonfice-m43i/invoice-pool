@@ -1,5 +1,4 @@
-
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import { nfts } from '../lib/nfts';
 
@@ -7,11 +6,34 @@ const TransferNft: React.FC = () => {
     const navigate = useNavigate();
     const { nftId } = useParams<{ nftId: string }>();
     const [recipientAddress, setRecipientAddress] = useState('');
+    const [isAddressTouched, setIsAddressTouched] = useState(false);
     const [showSuccessModal, setShowSuccessModal] = useState(false);
     
     const nft = nfts.find(n => n.id === nftId);
 
-    const isAddressValid = recipientAddress.startsWith('0x') && recipientAddress.length > 10;
+    const isValidEthereumAddress = (address: string): boolean => {
+        return /^0x[a-fA-F0-9]{40}$/.test(address);
+    };
+    
+    const isAddressValid = isValidEthereumAddress(recipientAddress);
+    const showError = isAddressTouched && !isAddressValid && recipientAddress.length > 0;
+
+    const handleAddressChange = (value: string) => {
+        setRecipientAddress(value);
+        if (!isAddressTouched) {
+            setIsAddressTouched(true);
+        }
+    };
+
+    const handlePaste = async () => {
+        try {
+            const text = await navigator.clipboard.readText();
+            handleAddressChange(text.trim());
+        } catch (err) {
+            console.error('Failed to read clipboard contents: ', err);
+            // You could show a small toast or alert to the user here
+        }
+    };
 
     const handleTransfer = () => {
         if (!isAddressValid) return;
@@ -65,17 +87,46 @@ const TransferNft: React.FC = () => {
                     </div>
 
                     {/* Recipient Address Input */}
-                    <div className="flex flex-col gap-2">
+                    <div className="flex flex-col gap-1.5">
                         <label htmlFor="recipient-address" className="text-text-light dark:text-text-dark font-medium px-1">收款人錢包地址</label>
-                        <input
-                            id="recipient-address"
-                            type="text"
-                            value={recipientAddress}
-                            onChange={(e) => setRecipientAddress(e.target.value)}
-                            placeholder="請輸入或貼上地址 e.g. 0x..."
-                            className="w-full h-14 px-4 rounded-xl border-2 border-border-light dark:border-border-dark bg-component-bg-light dark:bg-component-bg-dark focus:ring-primary focus:border-primary text-base font-mono"
-                            aria-label="Recipient Wallet Address"
-                        />
+                        <div className="relative">
+                            <input
+                                id="recipient-address"
+                                type="text"
+                                value={recipientAddress}
+                                onChange={(e) => handleAddressChange(e.target.value)}
+                                onBlur={() => setIsAddressTouched(true)}
+                                placeholder="輸入或貼上收件者錢包地址"
+                                className={`w-full h-14 pl-4 pr-28 rounded-xl border-2 bg-component-bg-light dark:bg-component-bg-dark focus:ring-primary focus:border-primary text-base font-mono transition-colors
+                                ${showError ? 'border-red-500 dark:border-red-500' : 'border-border-light dark:border-border-dark'}
+                                ${isAddressValid ? 'border-primary dark:border-primary' : ''}
+                                `}
+                                aria-label="Recipient Wallet Address"
+                                aria-invalid={showError}
+                                aria-describedby={showError ? "address-error" : undefined}
+                            />
+                            <div className="absolute inset-y-0 right-0 flex items-center pr-3 space-x-2">
+                               {isAddressTouched && (
+                                   <>
+                                   {isAddressValid && <span className="material-symbols-outlined text-primary">check_circle</span>}
+                                   {showError && <span className="material-symbols-outlined text-red-500">error</span>}
+                                   </>
+                               )}
+                                <button
+                                    type="button"
+                                    onClick={handlePaste}
+                                    className="text-primary text-sm font-bold hover:opacity-80"
+                                >
+                                    貼上
+                                </button>
+                            </div>
+                        </div>
+                        {showError && (
+                             <p id="address-error" className="text-red-500 text-xs mt-1 px-1 flex items-center gap-1">
+                                <span className="material-symbols-outlined !text-sm">error</span>
+                                錢包地址格式錯誤，請重新確認
+                            </p>
+                        )}
                     </div>
                     
                      {/* Gas Fee Info */}

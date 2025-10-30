@@ -1,42 +1,49 @@
-
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
 
-interface NavItemProps {
-  to: string;
-  icon: string;
-  label: string;
-  activePath?: string;
-}
+const navItems = [
+    { to: '/dashboard', icon: 'home', label: '首頁', id: 'home' },
+    { to: '/dashboard', icon: 'waves', label: '公益池', id: 'pools' },
+    { to: '/wallet', icon: 'account_balance_wallet', label: '錢包', id: 'wallet' },
+    { to: '/dashboard', icon: 'person', label: '個人', id: 'profile' },
+];
 
-const NavItem: React.FC<NavItemProps> = ({ to, icon, label, activePath }) => {
+const BottomNav: React.FC = () => {
     const location = useLocation();
-    const isActive = activePath ? location.pathname === activePath : location.pathname === to;
-    
-    const iconStyle = {
-      fontVariationSettings: `'FILL' ${isActive ? 1 : 0}, 'wght' 400, 'GRAD' 0, 'opsz' 24`,
+
+    const getIsActive = (id: string, path: string) => {
+        if (id === 'wallet') {
+            return location.pathname.startsWith('/wallet');
+        }
+        if (id === 'home') {
+            return location.pathname === '/dashboard';
+        }
+        // Pools and Profile share /dashboard and won't be marked active
+        return false;
     };
 
     return (
-        <Link to={to} className={`flex flex-col items-center justify-center gap-1 ${isActive ? 'text-primary' : 'text-gray-500 dark:text-gray-400 hover:text-primary dark:hover:text-primary'}`}>
-            <span className="material-symbols-outlined" style={iconStyle}>{icon}</span>
-            <span className={`text-xs ${isActive ? 'font-bold' : 'font-medium'}`}>{label}</span>
-        </Link>
-    );
-};
-
-
-const BottomNav: React.FC = () => {
-    return (
-        <nav className="fixed bottom-0 left-0 right-0 z-20 border-t border-border-light dark:border-border-dark bg-white/80 dark:bg-component-bg-dark/80 backdrop-blur-md">
-            <div className="mx-auto flex h-20 max-w-md items-center justify-around px-4">
-                <NavItem to="/dashboard" icon="home" label="首頁" activePath="/dashboard" />
-                <NavItem to="/dashboard" icon="volunteer_activism" label="公益池" />
-                <NavItem to="/dashboard" icon="receipt_long" label="發票" />
-                <NavItem to="/dashboard" icon="person" label="個人" />
+        <nav className="fixed bottom-0 left-0 right-0 z-50 border-t border-border-light dark:border-border-dark bg-white/90 dark:bg-component-bg-dark/90 backdrop-blur-lg rounded-t-2xl pb-[calc(env(safe-area-inset-bottom,0))]">
+            <div className="mx-auto max-w-md h-18 sm:h-20 px-6 flex items-center justify-between">
+                {navItems.map((item) => {
+                    const isActive = getIsActive(item.id, item.to);
+                    const iconStyle = {
+                        fontVariationSettings: `'FILL' ${isActive ? 1 : 0}, 'wght' 400, 'GRAD' 0, 'opsz' 24`,
+                    };
+                    return (
+                        <Link
+                            key={item.id}
+                            to={item.to}
+                            className={`flex flex-col items-center gap-1 py-3 transition-colors ${isActive ? 'text-primary' : 'text-subtle-light dark:text-subtle-dark hover:text-primary dark:hover:text-primary'}`}
+                        >
+                            <span className="material-symbols-outlined" style={iconStyle}>{item.icon}</span>
+                            <span className={`text-xs ${isActive ? 'font-bold' : ''}`}>{item.label}</span>
+                        </Link>
+                    );
+                })}
             </div>
         </nav>
     );
-}
+};
 
 export default BottomNav;

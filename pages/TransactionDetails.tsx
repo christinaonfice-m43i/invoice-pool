@@ -1,6 +1,6 @@
-
 import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import BottomNav from '../components/BottomNav';
 
 const TransactionDetails: React.FC = () => {
     const navigate = useNavigate();
@@ -14,7 +14,7 @@ const TransactionDetails: React.FC = () => {
                 <h1 className="flex-1 text-center text-lg font-bold leading-tight tracking-tight text-text-light dark:text-text-dark">捐贈交易詳情</h1>
                 <div className="size-10 shrink-0"></div>
             </header>
-            <main className="flex flex-1 flex-col items-center px-4 py-6">
+            <main className="flex flex-1 flex-col items-center px-4 py-6 pb-24">
                 <div className="w-full max-w-md rounded-xl bg-component-bg-light dark:bg-component-bg-dark p-6 shadow-lg shadow-black/[0.08] flex flex-col items-center">
                     <div className="flex h-16 w-16 items-center justify-center rounded-full bg-primary/10 mb-4">
                         <span className="material-symbols-outlined text-4xl text-primary">verified_user</span>
@@ -55,30 +55,7 @@ const TransactionDetails: React.FC = () => {
                     </button>
                 </div>
             </main>
-            <footer className="sticky bottom-0 z-10 w-full bg-component-bg-light/80 dark:bg-component-bg-dark/80 backdrop-blur-sm shadow-[0_-2px_5px_rgba(0,0,0,0.03)]">
-                <nav className="flex justify-around items-center h-20 px-4">
-                    <Link className="flex flex-col items-center justify-center space-y-1 text-subtle-light dark:text-subtle-dark" to="/dashboard">
-                        <span className="material-symbols-outlined">home</span>
-                        <span className="text-xs">Home</span>
-                    </Link>
-                    <Link className="flex flex-col items-center justify-center space-y-1 text-subtle-light dark:text-subtle-dark" to="/dashboard">
-                        <span className="material-symbols-outlined">pool</span>
-                        <span className="text-xs">Pools</span>
-                    </Link>
-                     <Link className="flex flex-col items-center justify-center space-y-1 text-subtle-light dark:text-subtle-dark" to="/dashboard">
-                        <span className="material-symbols-outlined">volunteer_activism</span>
-                        <span className="text-xs">Donate</span>
-                    </Link>
-                    <Link className="flex flex-col items-center justify-center space-y-1 text-primary" to="/wallet">
-                        <span className="material-symbols-outlined material-symbols-filled">account_balance_wallet</span>
-                        <span className="text-xs font-bold">Wallet</span>
-                    </Link>
-                    <Link className="flex flex-col items-center justify-center space-y-1 text-subtle-light dark:text-subtle-dark" to="/dashboard">
-                        <span className="material-symbols-outlined">person</span>
-                        <span className="text-xs">Profile</span>
-                    </Link>
-                </nav>
-            </footer>
+            <BottomNav />
         </div>
     );
 };

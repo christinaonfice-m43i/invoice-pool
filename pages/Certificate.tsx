@@ -1,7 +1,7 @@
-
 import React from 'react';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import { nfts } from '../lib/nfts';
+import BottomNav from '../components/BottomNav';
 
 const Certificate: React.FC = () => {
     const navigate = useNavigate();
@@ -73,26 +73,7 @@ const Certificate: React.FC = () => {
                     </div>
                 </main>
             </div>
-            <nav className="fixed bottom-0 left-0 right-0 z-20 border-t border-border-light dark:border-border-dark bg-background-light/90 dark:bg-background-dark/90 backdrop-blur-lg">
-                <div className="mx-auto flex h-20 max-w-md items-center justify-around px-4">
-                    <Link to="/dashboard" className="flex flex-col items-center gap-1 text-subtle-light dark:text-subtle-dark">
-                        <span className="material-symbols-outlined">home</span>
-                        <span className="text-xs">首頁</span>
-                    </Link>
-                    <Link to="/dashboard" className="flex flex-col items-center gap-1 text-subtle-light dark:text-subtle-dark">
-                        <span className="material-symbols-outlined">waves</span>
-                        <span className="text-xs">公益池</span>
-                    </Link>
-                    <Link to="/wallet" className="flex flex-col items-center gap-1 text-primary dark:text-primary">
-                        <span className="material-symbols-outlined material-symbols-filled">account_balance_wallet</span>
-                        <span className="text-xs font-bold">錢包</span>
-                    </Link>
-                    <Link to="/dashboard" className="flex flex-col items-center gap-1 text-subtle-light dark:text-subtle-dark">
-                        <span className="material-symbols-outlined">person</span>
-                        <span className="text-xs">個人</span>
-                    </Link>
-                </div>
-            </nav>
+            <BottomNav />
         </div>
     );
 };
