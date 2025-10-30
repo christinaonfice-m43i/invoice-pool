@@ -197,6 +197,7 @@ const Wallet: React.FC = () => {
                 <TransferNft
                     nftId={transferringNftId}
                     onClose={() => setTransferringNftId(null)}
+                    onTransferSuccess={() => setTransferringNftId(null)}
                 />
             )}
             <BottomNav />

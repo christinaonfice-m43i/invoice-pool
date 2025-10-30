@@ -33,7 +33,7 @@ export const charities: Charity[] = [
     status: '進行中',
     raised: 4010,
     supporters: 890,
-    nextDraw: '2024/09/25',
+    nextDraw: '2026/01/25',
     industry: '動物救援',
   },
   {
@@ -45,7 +45,7 @@ export const charities: Charity[] = [
     status: '進行中',
     raised: 2667,
     supporters: 620,
-    nextDraw: '2024/11/25',
+    nextDraw: '2026/01/25',
     industry: '醫療援助',
   },
   {

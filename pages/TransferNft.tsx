@@ -4,9 +4,10 @@ import { nfts } from '../lib/nfts';
 interface TransferNftProps {
     nftId: string;
     onClose: () => void;
+    onTransferSuccess: () => void;
 }
 
-const TransferNft: React.FC<TransferNftProps> = ({ nftId, onClose }) => {
+const TransferNft: React.FC<TransferNftProps> = ({ nftId, onClose, onTransferSuccess }) => {
     const [recipientAddress, setRecipientAddress] = useState('');
     const [isAddressValid, setIsAddressValid] = useState(false);
     const [isKeepCertificate, setIsKeepCertificate] = useState(true);
@@ -122,7 +123,7 @@ const TransferNft: React.FC<TransferNftProps> = ({ nftId, onClose }) => {
                         <p className="text-subtle-light dark:text-subtle-dark text-sm font-normal leading-normal pb-6 pt-1 px-4 text-center">您的公益憑證 NFT 已成功送出，交易正在區塊鏈上確認中。</p>
                         <div className="flex w-full px-2 py-2 justify-center">
                             <button 
-                                onClick={onClose}
+                                onClick={onTransferSuccess}
                                 className="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-12 px-5 flex-1 bg-primary text-text-light dark:text-black text-base font-bold leading-normal tracking-[0.015em] shadow-[0_4px_14px_0_rgba(38,169,92,0.25)]"
                             >
                                 <span className="truncate">完成</span>

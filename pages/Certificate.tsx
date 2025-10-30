@@ -8,7 +8,16 @@ const Certificate: React.FC = () => {
     const navigate = useNavigate();
     const { nftId } = useParams<{ nftId: string }>();
     const nft = nfts.find(n => n.id === nftId);
+    
     const [isTransferModalOpen, setIsTransferModalOpen] = useState(false);
+    // Initialize the disabled state from the NFT's static data, but allow it to be updated.
+    const [isTransferDisabled, setIsTransferDisabled] = useState(nft ? !nft.transferable : true);
+
+    const handleTransferSuccess = () => {
+        setIsTransferDisabled(true); // Disable the button on success
+        setIsTransferModalOpen(false); // Close the modal
+    };
+
 
     if (!nft) {
         return (
@@ -64,19 +73,14 @@ const Certificate: React.FC = () => {
                             </div>
                         </div>
                         <div className="flex flex-1 gap-3 w-full flex-col items-stretch py-6">
-                            {nft.transferable ? (
-                                <button onClick={() => setIsTransferModalOpen(true)} className="flex min-w-[84px] cursor-pointer items-center justify-center overflow-hidden rounded-xl h-12 px-5 bg-primary text-text-light dark:text-black text-base font-bold leading-normal tracking-[0.015em] w-full transition-transform active:scale-95">
-                                    <span className="truncate">轉移此 NFT</span>
-                                </button>
-                            ) : (
-                                <button
-                                    disabled
-                                    title="中獎捐贈後無法轉移"
-                                    className="flex min-w-[84px] cursor-not-allowed items-center justify-center overflow-hidden rounded-xl h-12 px-5 bg-gray-200 dark:bg-gray-700 text-gray-500 dark:text-gray-400 text-base font-bold leading-normal tracking-[0.015em] w-full"
-                                >
-                                    <span className="truncate">轉移此 NFT</span>
-                                </button>
-                            )}
+                             <button 
+                                onClick={() => setIsTransferModalOpen(true)}
+                                disabled={isTransferDisabled}
+                                title={!nft.transferable ? "中獎捐贈後無法轉移" : isTransferDisabled ? "此憑證已轉移" : "轉移此 NFT"}
+                                className="flex min-w-[84px] items-center justify-center overflow-hidden rounded-xl h-12 px-5 text-base font-bold leading-normal tracking-[0.015em] w-full transition-all active:scale-95 disabled:cursor-not-allowed disabled:bg-gray-200 dark:disabled:bg-gray-700 disabled:text-gray-500 dark:disabled:text-gray-400 enabled:bg-primary enabled:text-text-light dark:enabled:text-black"
+                            >
+                                <span className="truncate">轉移此 NFT</span>
+                            </button>
                             <Link to="/wallet" className="flex min-w-[84px] cursor-pointer items-center justify-center overflow-hidden rounded-xl h-12 px-5 text-primary text-base font-bold leading-normal tracking-[0.015em] w-full transition-transform active:scale-95">
                                 <span className="truncate">回到錢包</span>
                             </Link>
@@ -89,6 +93,7 @@ const Certificate: React.FC = () => {
                 <TransferNft
                     nftId={nft.id}
                     onClose={() => setIsTransferModalOpen(false)}
+                    onTransferSuccess={handleTransferSuccess}
                 />
             )}
             <BottomNav />
