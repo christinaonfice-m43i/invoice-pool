@@ -62,9 +62,19 @@ const Certificate: React.FC = () => {
                             </div>
                         </div>
                         <div className="flex flex-1 gap-3 w-full flex-col items-stretch py-6">
-                            <Link to={`/transfer-nft/${nft.id}`} className="flex min-w-[84px] cursor-pointer items-center justify-center overflow-hidden rounded-xl h-12 px-5 bg-primary text-text-light dark:text-black text-base font-bold leading-normal tracking-[0.015em] w-full transition-transform active:scale-95">
-                                <span className="truncate">轉移此 NFT</span>
-                            </Link>
+                            {nft.transferable ? (
+                                <Link to={`/transfer-nft/${nft.id}`} className="flex min-w-[84px] cursor-pointer items-center justify-center overflow-hidden rounded-xl h-12 px-5 bg-primary text-text-light dark:text-black text-base font-bold leading-normal tracking-[0.015em] w-full transition-transform active:scale-95">
+                                    <span className="truncate">轉移此 NFT</span>
+                                </Link>
+                            ) : (
+                                <button
+                                    disabled
+                                    title="中獎捐贈後無法轉移"
+                                    className="flex min-w-[84px] cursor-not-allowed items-center justify-center overflow-hidden rounded-xl h-12 px-5 bg-gray-200 dark:bg-gray-700 text-gray-500 dark:text-gray-400 text-base font-bold leading-normal tracking-[0.015em] w-full"
+                                >
+                                    <span className="truncate">轉移此 NFT</span>
+                                </button>
+                            )}
                             <Link to="/wallet" className="flex min-w-[84px] cursor-pointer items-center justify-center overflow-hidden rounded-xl h-12 px-5 text-primary text-base font-bold leading-normal tracking-[0.015em] w-full transition-transform active:scale-95">
                                 <span className="truncate">回到錢包</span>
                             </Link>
